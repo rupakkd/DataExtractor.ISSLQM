@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace DataExtractor.ISSLQM.Models
 {
@@ -9,7 +10,7 @@ namespace DataExtractor.ISSLQM.Models
         public string CFICode { get; set; }
         public string Venue { get; set; }
         [Description("Contract Size")]
-        public string ContractSize { get; set; }
+        public int ContractSize { get; set; }
         #endregion Properties
 
         #region Constructors
@@ -20,7 +21,9 @@ namespace DataExtractor.ISSLQM.Models
             ISIN = isin;
             CFICode = cfiCode;
             Venue = venue;
-            ContractSize = contractSize;
+
+            Double.TryParse(contractSize, out var size); // Assuming integer as per sample output csv
+            ContractSize = Convert.ToInt32(size);
         }
         #endregion Constructors
     }
