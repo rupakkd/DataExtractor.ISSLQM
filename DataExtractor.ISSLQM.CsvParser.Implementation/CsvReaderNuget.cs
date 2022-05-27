@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CsvHelper;
@@ -60,5 +61,36 @@ namespace DataExtractor.ISSLQM.CsvParser.Implementation
             }
         }
         #endregion Private Methods
+
+        #region Destructor
+        ~CsvReaderNuget()
+        {
+            this.Dispose(false);
+        }
+        #endregion Destructor
+
+        #region IDisposable Implementation
+        private bool disposed = false;
+
+        public void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resources
+                    // _logger.Dispose();
+                }
+
+                disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion IDisposable Implementation
     }
 }
