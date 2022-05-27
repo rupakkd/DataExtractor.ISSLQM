@@ -67,6 +67,10 @@
       <Project>{343C9A9B-1147-4BA5-8031-6E2BAE4A150E}</Project>
       <Name>DataExtractor.ISSLQM.CsvParser.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataExtractor.ISSLQM.IoC\DataExtractor.ISSLQM.IoC.csproj">
+      <Project>{D5CCDCD8-9C16-4492-8539-EA05242EC59F}</Project>
+      <Name>DataExtractor.ISSLQM.IoC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataExtractor.ISSLQM.Models\DataExtractor.ISSLQM.Models.csproj">
       <Project>{514c65c0-e501-4d87-bb89-31de6903e75e}</Project>
       <Name>DataExtractor.ISSLQM.Models</Name>
