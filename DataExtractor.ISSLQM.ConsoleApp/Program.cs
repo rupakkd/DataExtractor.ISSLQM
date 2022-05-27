@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using DataExtractor.ISSLQM.CsvParser.Implementation;
 using DataExtractor.ISSLQM.CsvParser.Interface;
+using DataExtractor.ISSLQM.IoC;
 using DataExtractor.ISSLQM.Models;
 
 namespace DataExtractor.ISSLQM.ConsoleApp
@@ -18,8 +18,8 @@ namespace DataExtractor.ISSLQM.ConsoleApp
         #region Constructor
         static Program()
         {
-            _csvReader = new CsvReaderNuget();
-            _csvWriter = new CsvWriterNuget();
+            _csvReader = DependencyResolver.Instance.GetInstance<ICsvReader>();
+            _csvWriter = DependencyResolver.Instance.GetInstance<ICsvWriter>();
         }
         #endregion Constructor
 
