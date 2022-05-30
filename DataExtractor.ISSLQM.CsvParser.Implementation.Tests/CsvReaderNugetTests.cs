@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using CsvHelper;
 using DataExtractor.ISSLQM.CsvParser.Implementation.Tests.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -159,43 +160,24 @@ namespace DataExtractor.ISSLQM.CsvParser.Implementation.Tests
 
         #region -- ReadFromCsv ----
         [TestMethod]
-        public void ReadFromCsvTest_ThrowsError_WhenValueIsNull()
+        public void ReadFromCsvTest_ThrowsError_WhenCsvIsNull()
         {
             //--- Act / Assert
             Assert.ThrowsException<ArgumentNullException>(() => csvReader.ReadFromCsv<TestModel>(null));
         }
 
         [TestMethod]
-        public void ReadFromCsvTest_ThrowsError_WhenFilePathEmpty()
+        public void ReadFromCsvTest_ThrowsError_WhenEmptyCsv()
         {
             //--- Act / Assert
-            Assert.ThrowsException<ArgumentException>(() => csvReader.ReadFromCsv<TestModel>(String.Empty));
+            Assert.ThrowsException<ArgumentException>(() => csvReader.ReadFromCsv<TestModel>(File.ReadAllText(@"Resources\EmptyCsv.csv")));
         }
 
         [TestMethod]
-        public void ReadFromCsvTest_ReturnsEmptyList_WhenEmptyCsv()
+        public void ReadFromCsvTest_ThrowsError_WhenMandatoryHeadersMissing()
         {
-            //--- Arrange
-            var expectedCount = 0;
-
-            //--- Act
-            var actual = csvReader.ReadFromCsv<TestModel>(File.ReadAllText(@"Resources\EmptyCsv.csv"));
-
-            //--- Assert
-            Assert.IsNotNull(actual);
-            Assert.IsFalse(actual.Any());
-            Assert.AreEqual(expectedCount, actual.Count);
-        }
-
-        [TestMethod]
-        public void ReadFromCsvTest_ReturnsEmptyList_WhenMandatoryHeadersMissing()
-        {
-            //--- Act
-            var actual = csvReader.ReadFromCsv<TestModel>(File.ReadAllText(@"Resources\MissingMandatoryHeader.csv"));
-
-            //--- Assert
-            Assert.IsNotNull(actual);
-            Assert.IsFalse(actual.Any());
+            //--- Act / Assert
+            Assert.ThrowsException<HeaderValidationException>(() => csvReader.ReadFromCsv<TestModel>(File.ReadAllText(@"Resources\MissingMandatoryHeader.csv")));
         }
 
         [TestMethod]
@@ -229,18 +211,10 @@ namespace DataExtractor.ISSLQM.CsvParser.Implementation.Tests
         }
 
         [TestMethod]
-        public void ReadFromCsvTest_ReadSuccess_WhenDirtyCsv()
+        public void ReadFromCsvTest_ThrowsError_WhenDirtyCsv()
         {
-            //--- Arrange
-            var expectedCount = 2;
-
-            //--- Act
-            var actual = csvReader.ReadFromCsv<TestModel>(File.ReadAllText(@"Resources\DirtyCsv.csv"));
-
-            //--- Assert
-            Assert.IsNotNull(actual);
-            Assert.IsTrue(actual.Any());
-            Assert.AreEqual(expectedCount, actual.Count);
+            //--- Act / Assert
+            Assert.ThrowsException<HeaderValidationException>(() => csvReader.ReadFromCsv<TestModel>(File.ReadAllText(@"Resources\DirtyCsv.csv")));
         }
 
         [TestMethod]

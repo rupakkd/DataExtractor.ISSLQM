@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using CsvHelper;
 
 namespace DataExtractor.ISSLQM.CsvParser.Interface
 {
@@ -13,6 +15,8 @@ namespace DataExtractor.ISSLQM.CsvParser.Interface
         /// <param name="newLineChar">New line characters (default: '\r\n')</param>
         /// <param name="delimeters">Delimeters (default: ',')</param>
         /// <returns></returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="path"/> is null</exception>
+        /// <exception cref="ArgumentException">When <paramref name="path"/> is empty</exception>
         List<T> ReadFromFile<T>(string path, string newLineChar = null, string[] delimeters = null) where T : class, new();
 
         /// <summary>
@@ -23,6 +27,7 @@ namespace DataExtractor.ISSLQM.CsvParser.Interface
         /// <param name="newLineChar">New line characters (default: '\r\n')</param>
         /// <param name="delimeters">Delimeters (default: ',')</param>
         /// <returns></returns>
+        /// <exception cref="HeaderValidationException">When <paramref name="value"/> is empty</exception>
         List<T> ReadFromCsv<T>(string value, string newLineChar = null, string[] delimeters = null) where T : class, new();
         #endregion Method Declarations
     }

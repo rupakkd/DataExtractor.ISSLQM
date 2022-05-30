@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
+using CuttingEdge.Conditions;
 using DataExtractor.ISSLQM.CsvParser.Interface;
 
 namespace DataExtractor.ISSLQM.CsvParser.Implementation
@@ -12,11 +13,15 @@ namespace DataExtractor.ISSLQM.CsvParser.Implementation
         #region ICsvReader Implementaion
         public List<T> ReadFromFile<T>(string path, string newLineChar = null, string[] delimeters = null) where T : class, new()
         {
+            Helper.ValidatePath(path);
+
             return ReadFile<T>(path, config: Helper.GetConfiguration(newLineChar, delimeters));
         }
 
         public List<T> ReadFromCsv<T>(string value, string newLineChar = null, string[] delimeters = null) where T : class, new()
         {
+            Condition.Requires(value, nameof(value)).IsNotNullOrWhiteSpace();
+
             using (var reader = new StringReader(value))
             {
                 return ExtractRecords<T>(reader, config: Helper.GetConfiguration(newLineChar, delimeters));
@@ -39,8 +44,6 @@ namespace DataExtractor.ISSLQM.CsvParser.Implementation
         {
             try
             {
-                Helper.ValidatePath(path);
-
                 using (var reader = new StreamReader(path))
                 {
                     for (var i = 0; i < skipLines; i++)
